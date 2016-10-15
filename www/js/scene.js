@@ -21,6 +21,44 @@ function init() {
   camera.position.set(0, 10, 0);
   scene.add(camera);
 
+
+
+  // var img = new THREE.MeshBasicMaterial({ //CHANGED to MeshBasicMaterial
+  //   map:THREE.ImageUtils.loadTexture('../img/bunny.jpg')
+  // });
+  // img.map.needsUpdate = true; //ADDED
+  //
+  // // plane
+  // var plane = new THREE.Mesh(new THREE.PlaneGeometry(200, 200),img);
+  // plane.overdraw = true;
+  // scene.add(plane);
+
+
+
+
+  var texture = THREE.ImageUtils.loadTexture(
+      'textures/patterns/checker.png'
+  );
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat = new THREE.Vector2(50, 50);
+  texture.anisotropy = renderer.getMaxAnisotropy();
+
+  var material = new THREE.MeshPhongMaterial({
+    color: 0xffffff,
+    specular: 0xffffff,
+    shininess: 20,
+    shading: THREE.FlatShading,
+    map: texture
+  });
+
+
+  var boxGeometry = new THREE.BoxGeometry(1,1,1);
+  var box = new THREE.Mesh(boxGeometry, material);
+  box.castShadow = true;
+  scene.add(box);
+
+
   controls = new THREE.OrbitControls(camera, element);
   controls.rotateUp(Math.PI / 4);
   controls.target.set(
