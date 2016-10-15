@@ -37,7 +37,7 @@ function init() {
 
 
   var texture = THREE.ImageUtils.loadTexture(
-      'textures/patterns/checker.png'
+      'textures/patterns/grass2.png'
   );
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
@@ -52,12 +52,64 @@ function init() {
     map: texture
   });
 
+  var crateTexture = THREE.ImageUtils.loadTexture( 'img/bunny.jpg' );
+    var crateMaterial = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0xf2a5f1} );
+    var crateMaterial2 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0x0ac2b9} );
+    var crateMaterial3 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0x0000ff} );
+    var crateMaterial4 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0xc20a13 } );
+    var crateMaterial5 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0xf0a630 } );
+    var crateMaterial6 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0xffffff } );
+    var crateMaterial7 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0x720ac2 } );
+    var crateMaterial8 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0x00ff00 } );
 
-  var boxGeometry = new THREE.BoxGeometry(1,1,1);
-  var box = new THREE.Mesh(boxGeometry, material);
+
+  var boxGeometry = new THREE.BoxGeometry(10,5,1);
+  var box = new THREE.Mesh(boxGeometry, crateMaterial);
+  var box1up = new THREE.Mesh(boxGeometry, crateMaterial2);
+  var box2up = new THREE.Mesh(boxGeometry, crateMaterial3);
+  var box3up = new THREE.Mesh(boxGeometry, crateMaterial4);
+  var box4up = new THREE.Mesh(boxGeometry, crateMaterial5);
+  var box2 = new THREE.Mesh(boxGeometry, crateMaterial6);
+  var box3 = new THREE.Mesh(boxGeometry, crateMaterial7);
+  var box4 = new THREE.Mesh(boxGeometry, crateMaterial8);
   box.castShadow = true;
-  scene.add(box);
 
+  box.position.set(6, 12, 6);
+  box1up.position.set(5, 17, 5);
+  box2.position.set(-6, 12, 6);
+  box2up.position.set(-5, 17, 5);
+  box3.position.set(6, 12, -6);
+  box3up.position.set(5, 17, -5);
+  box4.position.set(-6, 12, -6);
+  box4up.position.set(-5, 17, -5);
+
+  var axis = new THREE.Vector3(1 , 0, 0);
+
+  box.rotation.y = Math.PI / 4;
+  box1up.rotation.y = Math.PI / 4;
+  box1up.rotateOnAxis(axis, -Math.PI / 8);
+
+  box2.rotation.y = -Math.PI / 4;
+  box2up.rotation.y = -Math.PI / 4;
+  box2up.rotateOnAxis(axis, -Math.PI / 8);
+
+  box3.rotation.y = -Math.PI / 4;
+  box3up.rotation.y = -Math.PI / 4;
+  box3up.rotateOnAxis(axis, Math.PI / 8);
+
+  box4.rotation.y = Math.PI / 4;
+  box4up.rotation.y = Math.PI / 4;
+  box4up.rotateOnAxis(axis, Math.PI / 8);
+
+
+  scene.add(box);
+  scene.add(box1up);
+  scene.add(box2);
+  scene.add(box2up);
+  scene.add(box3);
+  scene.add(box3up);
+  scene.add(box4);
+  scene.add(box4up);
 
   controls = new THREE.OrbitControls(camera, element);
   controls.rotateUp(Math.PI / 4);
@@ -89,7 +141,7 @@ function init() {
   scene.add(light);
 
   var texture = THREE.ImageUtils.loadTexture(
-      'textures/patterns/checker.png'
+      'textures/patterns/grass2.png'
   );
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
