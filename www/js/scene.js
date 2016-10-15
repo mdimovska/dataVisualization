@@ -61,49 +61,71 @@ function init() {
   var box2 = new THREE.Mesh(boxGeometry, crateMaterial6);
   var box3 = new THREE.Mesh(boxGeometry, crateMaterial7);
   var box4 = new THREE.Mesh(boxGeometry, crateMaterial8);
+  var box1down = new THREE.Mesh(boxGeometry, crateMaterial2);
+  var box2down = new THREE.Mesh(boxGeometry, crateMaterial3);
+  var box3down = new THREE.Mesh(boxGeometry, crateMaterial4);
+  var box4down = new THREE.Mesh(boxGeometry, crateMaterial5);
   box.castShadow = true;
 
   var positionY = 10;
   var positionYUp = 17;
+  var positionYDown = 3;
   var positionZ = 6;
   var positionZUp = 5;
+  var positionZDown = 5;
 
   box.position.set(6, positionY, positionZ);
   box1up.position.set(5, positionYUp, positionZUp);
+  box1down.position.set(5, positionYDown, positionZDown);
   box2.position.set(-6, positionY, positionZ);
   box2up.position.set(-5, positionYUp, positionZUp);
+  box2down.position.set(-5, positionYDown, positionZDown);
   box3.position.set(6, positionY, -positionZ);
   box3up.position.set(5, positionYUp, -positionZUp);
+  box3down.position.set(5, positionYDown, -positionZDown);
   box4.position.set(-6, positionY, -positionZ);
   box4up.position.set(-5, positionYUp, -positionZUp);
+  box4down.position.set(-5, positionYDown, -positionZDown);
 
   var axis = new THREE.Vector3(1, 0, 0);
 
   box.rotation.y = Math.PI / 4;
   box1up.rotation.y = Math.PI / 4;
   box1up.rotateOnAxis(axis, -Math.PI / 8);
+  box1down.rotation.y = Math.PI / 4;
+  box1down.rotateOnAxis(axis, Math.PI / 8);
 
   box2.rotation.y = -Math.PI / 4;
   box2up.rotation.y = -Math.PI / 4;
   box2up.rotateOnAxis(axis, -Math.PI / 8);
+  box2down.rotation.y = -Math.PI / 4;
+  box2down.rotateOnAxis(axis, Math.PI / 8);
 
   box3.rotation.y = -Math.PI / 4;
   box3up.rotation.y = -Math.PI / 4;
   box3up.rotateOnAxis(axis, Math.PI / 8);
+  box3down.rotation.y = -Math.PI / 4;
+  box3down.rotateOnAxis(axis, -Math.PI / 8);
 
   box4.rotation.y = Math.PI / 4;
   box4up.rotation.y = Math.PI / 4;
   box4up.rotateOnAxis(axis, Math.PI / 8);
+  box4down.rotation.y = Math.PI / 4;
+  box4down.rotateOnAxis(axis, -Math.PI / 8);
 
 
   scene.add(box);
   scene.add(box1up);
+  scene.add(box1down);
   scene.add(box2);
   scene.add(box2up);
+  scene.add(box2down);
   scene.add(box3);
   scene.add(box3up);
+  scene.add(box3down);
   scene.add(box4);
   scene.add(box4up);
+  scene.add(box4down);
 
   controls = new THREE.OrbitControls(camera, element);
   // controls.rotateUp(Math.PI / 4);
