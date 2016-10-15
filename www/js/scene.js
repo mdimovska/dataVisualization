@@ -32,6 +32,9 @@ function init() {
   camera.position.set(0, 0, 0);
   camera.lookAt(scene.position);
 
+  var imageWidth = 20;
+  var imageHeight = 10;
+
   var crateTextureNew = THREE.ImageUtils.loadTexture('img/bunny.jpg');
   var boxGeometryNew = new THREE.BoxGeometry(imageWidth, imageHeight, 1);
 
@@ -39,17 +42,24 @@ function init() {
   var centreX = 0;
   var centreY = 0;
 
-  var numberOfImages = 8;
-  for (var i = 0; i < numberOfImages; i++) {
+  var y = 0;
+  var distanceY = 3;
+  var numberOfImages = 20;
+  var maxNumberOfImagesInPlane = 8;
+  for (var i = 1; i <= numberOfImages; i++) {
     var crateMaterialNew = new THREE.MeshBasicMaterial({map: crateTextureNew, color: Math.random() * 0xffffff});
     var boxNew = new THREE.Mesh(boxGeometryNew, crateMaterialNew);
 
-    var r = imageWidth / (2 * Math.sin(Math.PI / numberOfImages));
-    var x = centreX + r * Math.sin(2 * Math.PI * i / numberOfImages);
-    var y = centreY + r * Math.cos(2 * Math.PI * i / numberOfImages);
+    if (i > maxNumberOfImagesInPlane && i % maxNumberOfImagesInPlane == 1) {
+      y += distanceY + imageHeight;
+    }
 
-    boxNew.position.set(x, 0, y);
-    boxNew.rotateY(i * 2 * Math.PI / numberOfImages);
+    var radius = imageWidth / (2 * Math.sin(Math.PI / maxNumberOfImagesInPlane));
+    var x = centreX + radius * Math.sin(2 * Math.PI * i / maxNumberOfImagesInPlane);
+    var z = centreY + radius * Math.cos(2 * Math.PI * i / maxNumberOfImagesInPlane);
+
+    boxNew.position.set(x,  y, z);
+    boxNew.rotateY(i * 2 * Math.PI / maxNumberOfImagesInPlane);
     scene.add(boxNew);
   }
 
