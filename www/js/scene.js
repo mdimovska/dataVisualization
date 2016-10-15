@@ -21,7 +21,6 @@ function init() {
   camera.position.set(0, 10, 0);
   scene.add(camera);
 
-  // not added ...
   controls = new THREE.OrbitControls(camera, element);
   controls.rotateUp(Math.PI / 4);
   controls.target.set(
@@ -52,7 +51,7 @@ function init() {
   scene.add(light);
 
   var texture = THREE.ImageUtils.loadTexture(
-      './textures/patterns/checker.png'
+      'textures/patterns/checker.png'
   );
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
