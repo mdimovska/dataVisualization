@@ -17,10 +17,17 @@ function init() {
 
   scene = new THREE.Scene();
 
-  camera = new THREE.PerspectiveCamera(90, 1, 0.001, 700);
-  camera.position.set(0, 10, 0);
+  // CAMERA
+  var SCREEN_WIDTH = window.innerWidth,
+      SCREEN_HEIGHT = window.innerHeight;
+  var VIEW_ANGLE = 95,
+      ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
+      NEAR = 1,
+      FAR = 1000;
+  camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
   scene.add(camera);
-
+  camera.position.set(0, 10, 0);
+  camera.lookAt(scene.position);
 
 
   // var img = new THREE.MeshBasicMaterial({ //CHANGED to MeshBasicMaterial
@@ -34,36 +41,18 @@ function init() {
   // scene.add(plane);
 
 
+  var crateTexture = THREE.ImageUtils.loadTexture('img/bunny.jpg');
+  var crateMaterial = new THREE.MeshBasicMaterial({map: crateTexture, color: 0xf2a5f1});
+  var crateMaterial2 = new THREE.MeshBasicMaterial({map: crateTexture, color: 0x0ac2b9});
+  var crateMaterial3 = new THREE.MeshBasicMaterial({map: crateTexture, color: 0x0000ff});
+  var crateMaterial4 = new THREE.MeshBasicMaterial({map: crateTexture, color: 0xc20a13});
+  var crateMaterial5 = new THREE.MeshBasicMaterial({map: crateTexture, color: 0xf0a630});
+  var crateMaterial6 = new THREE.MeshBasicMaterial({map: crateTexture, color: 0xffffff});
+  var crateMaterial7 = new THREE.MeshBasicMaterial({map: crateTexture, color: 0x720ac2});
+  var crateMaterial8 = new THREE.MeshBasicMaterial({map: crateTexture, color: 0x00ff00});
 
 
-  var texture = THREE.ImageUtils.loadTexture(
-      'textures/patterns/grass2.png'
-  );
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat = new THREE.Vector2(50, 50);
-  texture.anisotropy = renderer.getMaxAnisotropy();
-
-  var material = new THREE.MeshPhongMaterial({
-    color: 0xffffff,
-    specular: 0xffffff,
-    shininess: 20,
-    shading: THREE.FlatShading,
-    map: texture
-  });
-
-  var crateTexture = THREE.ImageUtils.loadTexture( 'img/bunny.jpg' );
-    var crateMaterial = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0xf2a5f1} );
-    var crateMaterial2 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0x0ac2b9} );
-    var crateMaterial3 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0x0000ff} );
-    var crateMaterial4 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0xc20a13 } );
-    var crateMaterial5 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0xf0a630 } );
-    var crateMaterial6 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0xffffff } );
-    var crateMaterial7 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0x720ac2 } );
-    var crateMaterial8 = new THREE.MeshBasicMaterial( { map: crateTexture, color: 0x00ff00 } );
-
-
-  var boxGeometry = new THREE.BoxGeometry(10,5,1);
+  var boxGeometry = new THREE.BoxGeometry(10, 5, 1);
   var box = new THREE.Mesh(boxGeometry, crateMaterial);
   var box1up = new THREE.Mesh(boxGeometry, crateMaterial2);
   var box2up = new THREE.Mesh(boxGeometry, crateMaterial3);
@@ -74,16 +63,21 @@ function init() {
   var box4 = new THREE.Mesh(boxGeometry, crateMaterial8);
   box.castShadow = true;
 
-  box.position.set(6, 12, 6);
-  box1up.position.set(5, 17, 5);
-  box2.position.set(-6, 12, 6);
-  box2up.position.set(-5, 17, 5);
-  box3.position.set(6, 12, -6);
-  box3up.position.set(5, 17, -5);
-  box4.position.set(-6, 12, -6);
-  box4up.position.set(-5, 17, -5);
+  var positionY = 10;
+  var positionYUp = 17;
+  var positionZ = 6;
+  var positionZUp = 5;
 
-  var axis = new THREE.Vector3(1 , 0, 0);
+  box.position.set(6, positionY, positionZ);
+  box1up.position.set(5, positionYUp, positionZUp);
+  box2.position.set(-6, positionY, positionZ);
+  box2up.position.set(-5, positionYUp, positionZUp);
+  box3.position.set(6, positionY, -positionZ);
+  box3up.position.set(5, positionYUp, -positionZUp);
+  box4.position.set(-6, positionY, -positionZ);
+  box4up.position.set(-5, positionYUp, -positionZUp);
+
+  var axis = new THREE.Vector3(1, 0, 0);
 
   box.rotation.y = Math.PI / 4;
   box1up.rotation.y = Math.PI / 4;
@@ -112,7 +106,7 @@ function init() {
   scene.add(box4up);
 
   controls = new THREE.OrbitControls(camera, element);
-  controls.rotateUp(Math.PI / 4);
+  // controls.rotateUp(Math.PI / 4);
   controls.target.set(
       camera.position.x + 0.1,
       camera.position.y,
@@ -134,33 +128,34 @@ function init() {
 
     window.removeEventListener('deviceorientation', setOrientationControls, true);
   }
+
   window.addEventListener('deviceorientation', setOrientationControls, true);
 
 
   var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
   scene.add(light);
 
-  var texture = THREE.ImageUtils.loadTexture(
-      'textures/patterns/grass2.png'
-  );
-  texture.wrapS = THREE.RepeatWrapping;
-  texture.wrapT = THREE.RepeatWrapping;
-  texture.repeat = new THREE.Vector2(50, 50);
-  texture.anisotropy = renderer.getMaxAnisotropy();
-
-  var material = new THREE.MeshPhongMaterial({
-    color: 0xffffff,
-    specular: 0xffffff,
-    shininess: 20,
-    shading: THREE.FlatShading,
-    map: texture
-  });
-
-  var geometry = new THREE.PlaneGeometry(1000, 1000);
-
-  var mesh = new THREE.Mesh(geometry, material);
-  mesh.rotation.x = -Math.PI / 2;
-  scene.add(mesh);
+  // var texture = THREE.ImageUtils.loadTexture(
+  //     'textures/patterns/grass2.png'
+  // );
+  // texture.wrapS = THREE.RepeatWrapping;
+  // texture.wrapT = THREE.RepeatWrapping;
+  // texture.repeat = new THREE.Vector2(512, 512);
+  // texture.anisotropy = renderer.getMaxAnisotropy();
+  //
+  // var material = new THREE.MeshPhongMaterial({
+  //   color: 0xffffff,
+  //   specular: 0xffffff,
+  //   shininess: 0,
+  //   shading: THREE.FlatShading,
+  //   map: texture
+  // });
+  //
+  // var geometry = new THREE.PlaneGeometry(1000, 1000);
+  //
+  // var mesh = new THREE.Mesh(geometry, material);
+  // mesh.rotation.x = -Math.PI / 2;
+  // scene.add(mesh);
 
   window.addEventListener('resize', resize, false);
   setTimeout(resize, 1);
