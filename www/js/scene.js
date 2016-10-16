@@ -34,6 +34,8 @@ function init() {
   camera.position.set(0, 0, 0);
   camera.lookAt(scene.position);
 
+  // IMAGES
+
   var imageWidth = 20;
   var imageHeight = 10;
 
@@ -97,11 +99,23 @@ function init() {
 
   window.addEventListener('deviceorientation', setOrientationControls, true);
 
+  // LIGHT
   var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
   scene.add(light);
 
   window.addEventListener('resize', resize, false);
   setTimeout(resize, 1);
+
+  // FLOOR
+  var floorTexture = new THREE.ImageUtils.loadTexture('img/checker.png');
+  floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+  floorTexture.repeat.set(1000, 1000);
+  var floorMaterial = new THREE.MeshLambertMaterial({map: floorTexture, side: THREE.DoubleSide});
+  var floorGeometry = new THREE.PlaneGeometry(1000, 1000);
+  var floor = new THREE.Mesh(floorGeometry, floorMaterial);
+  floor.position.y = -10.5;
+  floor.rotation.x = Math.PI / 2;
+  scene.add(floor);
 }
 
 function resize() {
