@@ -100,7 +100,7 @@ function init() {
   window.addEventListener('deviceorientation', setOrientationControls, true);
 
   // LIGHT
-  var light = new THREE.HemisphereLight(0x777777, 0x000000, 0.6);
+  var light = new THREE.HemisphereLight(0xffffff, 0x000000, 0.6);
   scene.add(light);
 
   window.addEventListener('resize', resize, false);
@@ -109,13 +109,25 @@ function init() {
   // FLOOR
   var floorTexture = new THREE.ImageUtils.loadTexture('img/checker.png');
   floorTexture.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
-  floorTexture.repeat.set(1000, 1000);
+  floorTexture.repeat.set(100, 100);
   var floorMaterial = new THREE.MeshLambertMaterial({map: floorTexture, side: THREE.DoubleSide});
   var floorGeometry = new THREE.PlaneGeometry(1000, 1000);
   var floor = new THREE.Mesh(floorGeometry, floorMaterial);
   floor.position.y = -10.5;
   floor.rotation.x = Math.PI / 2;
   scene.add(floor);
+
+  // CARPET
+  var floorTexture1 = new THREE.ImageUtils.loadTexture('img/carpet.jpg');
+  // floorTexture1.wrapS = floorTexture.wrapT = THREE.RepeatWrapping;
+  // floorTexture1.repeat.set(100, 100);
+  var floorMaterial1 = new THREE.MeshLambertMaterial({map: floorTexture1, side: THREE.DoubleSide});
+  var floorGeometry1 = new THREE.PlaneGeometry(30, 45);
+  var floor1 = new THREE.Mesh(floorGeometry1, floorMaterial1);
+  floor1.position.y = -10.2;
+  floor1.rotation.x = Math.PI / 2;
+  scene.add(floor1);
+
 }
 
 function resize() {
