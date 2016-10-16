@@ -1,8 +1,14 @@
-var camera, scene, renderer;
-var effect, controls;
-var element, container;
-
+var camera,
+    scene,
+    renderer;
+var effect,
+    controls;
+var element,
+    container;
 var clock = new THREE.Clock();
+
+var SCREEN_WIDTH = window.innerWidth,
+    SCREEN_HEIGHT = window.innerHeight;
 
 init();
 animate();
@@ -19,13 +25,10 @@ function init() {
   // scene.add(new THREE.AxisHelper(2000));
 
   // CAMERA
-  var SCREEN_WIDTH = window.innerWidth,
-      SCREEN_HEIGHT = window.innerHeight;
-
-  var VIEW_ANGLE = 120, // 90
+  var VIEW_ANGLE = 90,
       ASPECT = SCREEN_WIDTH / SCREEN_HEIGHT,
       NEAR = 1,
-      FAR = 100000; // 100000
+      FAR = 100000;
 
   camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
   camera.position.set(0, 0, 0);
@@ -34,8 +37,8 @@ function init() {
   var imageWidth = 20;
   var imageHeight = 10;
 
-  var crateTextureNew = THREE.ImageUtils.loadTexture('img/bunny.jpg');
-  var boxGeometryNew = new THREE.BoxGeometry(imageWidth, imageHeight, 1);
+  var texture = THREE.ImageUtils.loadTexture('img/bunny.jpg');
+  var boxGeometry = new THREE.BoxGeometry(imageWidth, imageHeight, 1);
 
   // center of the image
   var centreX = 0;
@@ -52,8 +55,8 @@ function init() {
   }
 
   for (var i = 1; i <= numberOfImages; i++) {
-    var crateMaterialNew = new THREE.MeshBasicMaterial({map: crateTextureNew, color: Math.random() * 0xffffff});
-    var boxNew = new THREE.Mesh(boxGeometryNew, crateMaterialNew);
+    var material = new THREE.MeshBasicMaterial({map: texture, color: Math.random() * 0xffffff});
+    var box = new THREE.Mesh(boxGeometry, material);
 
     if (i > MAX_NUMBER_OF_IMAGES_IN_ROW && i % MAX_NUMBER_OF_IMAGES_IN_ROW == 1) {
       y += DISTANCE_Y + imageHeight;
@@ -63,9 +66,10 @@ function init() {
     var x = centreX + radius * Math.sin(2 * Math.PI * i / maxNumberOfImagesInRow);
     var z = centreY + radius * Math.cos(2 * Math.PI * i / maxNumberOfImagesInRow);
 
-    boxNew.position.set(x, y, z);
-    boxNew.rotateY(i * 2 * Math.PI / maxNumberOfImagesInRow);
-    scene.add(boxNew);
+    box.position.set(x, y, z);
+    box.rotateY(i * 2 * Math.PI / maxNumberOfImagesInRow);
+
+    scene.add(box);
   }
 
   controls = new THREE.OrbitControls(camera, element);
