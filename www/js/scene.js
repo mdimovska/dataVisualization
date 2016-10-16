@@ -16,7 +16,7 @@ function init() {
   effect = new THREE.StereoEffect(renderer);
 
   scene = new THREE.Scene();
-  scene.add(new THREE.AxisHelper(2000));
+  // scene.add(new THREE.AxisHelper(2000));
 
   // CAMERA
   var SCREEN_WIDTH = window.innerWidth,
@@ -28,7 +28,6 @@ function init() {
       FAR = 100000; // 100000
 
   camera = new THREE.PerspectiveCamera(VIEW_ANGLE, ASPECT, NEAR, FAR);
-  // camera.position.set(0,10,0); // TODO
   camera.position.set(0, 0, 0);
   camera.lookAt(scene.position);
 
@@ -43,23 +42,29 @@ function init() {
   var centreY = 0;
 
   var y = 0;
-  var distanceY = 3;
-  var numberOfImages = 20;
-  var maxNumberOfImagesInPlane = 8;
+  var DISTANCE_Y = 3;
+  var numberOfImages = 104;
+  var MAX_NUMBER_OF_IMAGES_IN_ROW = 8;
+  var maxNumberOfImagesInRow = MAX_NUMBER_OF_IMAGES_IN_ROW;
+  if (numberOfImages < MAX_NUMBER_OF_IMAGES_IN_ROW && numberOfImages > 4) {
+    // if there are 4 images or less, should not render them in a circle
+    maxNumberOfImagesInRow = numberOfImages;
+  }
+
   for (var i = 1; i <= numberOfImages; i++) {
     var crateMaterialNew = new THREE.MeshBasicMaterial({map: crateTextureNew, color: Math.random() * 0xffffff});
     var boxNew = new THREE.Mesh(boxGeometryNew, crateMaterialNew);
 
-    if (i > maxNumberOfImagesInPlane && i % maxNumberOfImagesInPlane == 1) {
-      y += distanceY + imageHeight;
+    if (i > MAX_NUMBER_OF_IMAGES_IN_ROW && i % MAX_NUMBER_OF_IMAGES_IN_ROW == 1) {
+      y += DISTANCE_Y + imageHeight;
     }
 
-    var radius = imageWidth / (2 * Math.sin(Math.PI / maxNumberOfImagesInPlane));
-    var x = centreX + radius * Math.sin(2 * Math.PI * i / maxNumberOfImagesInPlane);
-    var z = centreY + radius * Math.cos(2 * Math.PI * i / maxNumberOfImagesInPlane);
+    var radius = imageWidth / (2 * Math.sin(Math.PI / maxNumberOfImagesInRow));
+    var x = centreX + radius * Math.sin(2 * Math.PI * i / maxNumberOfImagesInRow);
+    var z = centreY + radius * Math.cos(2 * Math.PI * i / maxNumberOfImagesInRow);
 
-    boxNew.position.set(x,  y, z);
-    boxNew.rotateY(i * 2 * Math.PI / maxNumberOfImagesInPlane);
+    boxNew.position.set(x, y, z);
+    boxNew.rotateY(i * 2 * Math.PI / maxNumberOfImagesInRow);
     scene.add(boxNew);
   }
 
@@ -113,11 +118,11 @@ function update(dt) {
   controls.update(dt);
 }
 
-function render(dt) {
+function render() {
   effect.render(scene, camera);
 }
 
-function animate(t) {
+function animate() {
   requestAnimationFrame(animate);
 
   update(clock.getDelta());
