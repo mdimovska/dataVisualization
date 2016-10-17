@@ -75,12 +75,7 @@ function init() {
   }
 
   controls = new THREE.OrbitControls(camera, element);
-  controls.rotateLeft(Math.PI / 2);
-  controls.target.set(
-      camera.position.x + 0.1,
-      camera.position.y,
-      camera.position.z
-  );
+  rotateCameraAndSetTarget();
   controls.noZoom = true;
   controls.noPan = true;
 
@@ -128,6 +123,7 @@ function init() {
   floor1.rotation.x = Math.PI / 2;
   scene.add(floor1);
 
+  addCameraEvents();
 }
 
 function resize() {
@@ -157,4 +153,30 @@ function animate() {
 
   update(clock.getDelta());
   render(clock.getDelta());
+}
+
+function addCameraEvents() {
+  var moveUpDiv = document.getElementById('moveUp');
+  moveUpDiv.onclick = function () {
+    camera.position.y += 10;
+
+    rotateCameraAndSetTarget();
+  };
+
+  var moveDownDiv = document.getElementById('moveDown');
+  moveDownDiv.onclick = function () {
+    if (camera.position.y - 10 > 0) {
+      camera.position.y -= 10;
+      rotateCameraAndSetTarget();
+    }
+  };
+}
+
+function rotateCameraAndSetTarget() {
+  controls.rotateLeft(Math.PI / 2);
+  controls.target.set(
+      camera.position.x + 0.1,
+      camera.position.y,
+      camera.position.z
+  );
 }
